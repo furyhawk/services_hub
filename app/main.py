@@ -12,6 +12,7 @@ from .models import (
     AirTemperatureGetResponse,
     AirTemperatureGetResponse1,
     AirTemperatureGetResponse2,
+    Data3,
     FourDayOutlookGetResponse,
     FourDayOutlookGetResponse1,
     FourDayOutlookGetResponse2,
@@ -30,65 +31,77 @@ from .models import (
 )
 
 app = FastAPI(
-    title='Merged API Services',
-    description='This is a merged OpenAPI specification containing multiple API services',
-    contact={'email': 'feedback@data.gov.sg'},
-    version='2025.05.17',
-    servers=[{'url': 'https://api-open.data.gov.sg/v2/real-time/api'}],
+    title="Merged API Services",
+    description="This is a merged OpenAPI specification containing multiple API services",
+    contact={"email": "feedback@data.gov.sg"},
+    version="2025.05.17",
+    servers=[{"url": "https://api-open.data.gov.sg/v2/real-time/api"}],
 )
 
 
 @app.get(
-    '/air-temperature',
+    "/air-temperature",
     response_model=AirTemperatureGetResponse,
     responses={
-        '400': {'model': AirTemperatureGetResponse1},
-        '404': {'model': AirTemperatureGetResponse2},
+        "400": {"model": AirTemperatureGetResponse1},
+        "404": {"model": AirTemperatureGetResponse2},
     },
 )
 def get_air_temperature(
     date: Optional[str] = None,
-    pagination_token: Optional[str] = Query(None, alias='paginationToken'),
+    pagination_token: Optional[str] = Query(None, alias="paginationToken"),
 ) -> Union[
     AirTemperatureGetResponse, AirTemperatureGetResponse1, AirTemperatureGetResponse2
 ]:
     """
     Get air temperature readings across Singapore
     """
-    pass
+    # For now, returning a basic mock response
+    return AirTemperatureGetResponse(
+        code=0,
+        errorMsg="",
+        data=Data3(
+            stations=[], readings=[], readingType="DBT 1M F", readingUnit="deg C"
+        ),
+    )
 
 
 @app.get(
-    '/four-day-outlook',
+    "/four-day-outlook",
     response_model=FourDayOutlookGetResponse,
     responses={
-        '400': {'model': FourDayOutlookGetResponse1},
-        '404': {'model': FourDayOutlookGetResponse2},
+        "400": {"model": FourDayOutlookGetResponse1},
+        "404": {"model": FourDayOutlookGetResponse2},
     },
 )
 def get_four_day_outlook(
     date: Optional[str] = None,
-    pagination_token: Optional[str] = Query(None, alias='paginationToken'),
+    pagination_token: Optional[str] = Query(None, alias="paginationToken"),
 ) -> Union[
     FourDayOutlookGetResponse, FourDayOutlookGetResponse1, FourDayOutlookGetResponse2
 ]:
     """
     Retrieve the latest 4 day weather forecast
     """
-    pass
+    # Basic mock response
+    return FourDayOutlookGetResponse(
+        code=0,
+        errorMsg="",
+        data=None,  # Replace with proper data structure when implementing real functionality
+    )
 
 
 @app.get(
-    '/twenty-four-hr-forecast',
+    "/twenty-four-hr-forecast",
     response_model=TwentyFourHrForecastGetResponse,
     responses={
-        '400': {'model': TwentyFourHrForecastGetResponse1},
-        '404': {'model': TwentyFourHrForecastGetResponse2},
+        "400": {"model": TwentyFourHrForecastGetResponse1},
+        "404": {"model": TwentyFourHrForecastGetResponse2},
     },
 )
 def get_twenty_four_hr_forecast(
     date: Optional[str] = None,
-    pagination_token: Optional[str] = Query(None, alias='paginationToken'),
+    pagination_token: Optional[str] = Query(None, alias="paginationToken"),
 ) -> Union[
     TwentyFourHrForecastGetResponse,
     TwentyFourHrForecastGetResponse1,
@@ -97,63 +110,83 @@ def get_twenty_four_hr_forecast(
     """
     Retrieve the latest 24 hour weather forecast
     """
-    pass
+    # Basic mock response
+    return TwentyFourHrForecastGetResponse(
+        code=0,
+        errorMsg="",
+        data=None,  # Replace with proper data structure when implementing real functionality
+    )
 
 
 @app.get(
-    '/two-hr-forecast',
+    "/two-hr-forecast",
     response_model=TwoHrForecastGetResponse,
     responses={
-        '400': {'model': TwoHrForecastGetResponse1},
-        '404': {'model': TwoHrForecastGetResponse2},
+        "400": {"model": TwoHrForecastGetResponse1},
+        "404": {"model": TwoHrForecastGetResponse2},
     },
 )
 def get_two_hr_forecast(
     date: Optional[str] = None,
-    pagination_token: Optional[str] = Query(None, alias='paginationToken'),
+    pagination_token: Optional[str] = Query(None, alias="paginationToken"),
 ) -> Union[
     TwoHrForecastGetResponse, TwoHrForecastGetResponse1, TwoHrForecastGetResponse2
 ]:
     """
     Retrieve the latest two hour weather forecast
     """
-    pass
+    # Basic mock response
+    return TwoHrForecastGetResponse(
+        code=0,
+        errorMsg="",
+        data=None,  # Replace with proper data structure when implementing real functionality
+    )
 
 
 @app.get(
-    '/weather',
+    "/weather",
     response_model=WeatherGetResponse,
     responses={
-        '400': {'model': WeatherGetResponse1},
-        '404': {'model': WeatherGetResponse2},
+        "400": {"model": WeatherGetResponse1},
+        "404": {"model": WeatherGetResponse2},
     },
 )
 def get_weather(
     api: Optional[str] = None,
     date: Optional[str] = None,
-    pagination_token: Optional[str] = Query(None, alias='paginationToken'),
+    pagination_token: Optional[str] = Query(None, alias="paginationToken"),
 ) -> Union[WeatherGetResponse, WeatherGetResponse1, WeatherGetResponse2]:
     """
     Retrieve the latest WBGT data for accurate heat stress assessment
     """
-    pass
+    # Basic mock response
+    return WeatherGetResponse(
+        code=0,
+        errorMsg="",
+        data=None,  # Replace with proper data structure when implementing real functionality
+    )
 
 
 @app.get(
-    '/wind-direction',
+    "/wind-direction",
     response_model=WindDirectionGetResponse,
     responses={
-        '400': {'model': WindDirectionGetResponse1},
-        '404': {'model': WindDirectionGetResponse2},
+        "400": {"model": WindDirectionGetResponse1},
+        "404": {"model": WindDirectionGetResponse2},
     },
 )
 def get_wind_direction(
     date: Optional[str] = None,
-    pagination_token: Optional[str] = Query(None, alias='paginationToken'),
+    pagination_token: Optional[str] = Query(None, alias="paginationToken"),
 ) -> Union[
     WindDirectionGetResponse, WindDirectionGetResponse1, WindDirectionGetResponse2
 ]:
     """
     Get wind direction readings across Singapore
     """
-    pass
+    # Basic mock response
+    return WindDirectionGetResponse(
+        code=0,
+        errorMsg="",
+        data=None,  # Replace with proper data structure when implementing real functionality
+    )

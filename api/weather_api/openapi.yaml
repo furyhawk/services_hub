@@ -1,0 +1,2496 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: feedback@data.gov.sg
+  description: This is a merged OpenAPI specification containing multiple API services
+  title: Merged API Services
+  version: 2025.05.17
+servers:
+- url: https://api-open.data.gov.sg/v2/real-time/api
+paths:
+  /twenty-four-hr-forecast:
+    get:
+      description: |
+        **[https://api-open.data.gov.sg/v2/real-time/api/twenty-four-hr-forecast](https://api-open.data.gov.sg/v2/real-time/api/twenty-four-hr-forecast)**
+
+        <br/>
+
+        - Updated multiple times throughout the day
+
+        <br/>
+
+        - Filter for specific date or date-time by providing `date` in query parameter.
+          - use YYYY-MM-DD format to retrieve all of the readings for that day
+          - use YYYY-MM-DDTHH:mm:ss to retrieve the latest readings at that moment in time
+          - example: `?date=2024-07-16` or `?date=2024-07-16T23:59:00`
+
+        <br/>
+
+        - Possible values for forecast include:
+          - Fair
+          - Fair (Day)
+          - Fair (Night)
+          - Fair and Warm
+          - Partly Cloudy
+          - Partly Cloudy (Day)
+          - Partly Cloudy (Night)
+          - Cloudy
+          - Hazy
+          - Slightly Hazy
+          - Windy
+          - Mist
+          - Fog
+          - Light Rain
+          - Moderate Rain
+          - Heavy Rain
+          - Passing Showers
+          - Light Showers
+          - Showers
+          - Heavy Showers
+          - Thundery Showers
+          - Heavy Thundery Showers
+          - Heavy Thundery Showers with Gusty Winds
+      parameters:
+      - description: "SGT date (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS). Example: 2024-07-16\
+          \ or 2024-07-16T23:59:00"
+        explode: true
+        in: query
+        name: date
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Pagination token for retrieving subsequent data pages
+        explode: true
+        in: query
+        name: paginationToken
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response'
+          description: 24 Hour Weather Forecast
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_twenty_four_hr_forecast_get_400_response'
+          description: Invalid HTTP request body
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_twenty_four_hr_forecast_get_404_response'
+          description: Weather data not found
+      summary: Retrieve the latest 24 hour weather forecast
+  /two-hr-forecast:
+    get:
+      description: |
+        **[https://api-open.data.gov.sg/v2/real-time/api/two-hr-forecast](https://api-open.data.gov.sg/v2/real-time/api/two-hr-forecast)**
+
+        <br/>
+
+        - Updated half-hourly from NEA
+        - Forecasts are given for multiple areas in Singapore
+
+        <br/>
+
+        - Filter for specific date or date-time by providing `date` in query parameter.
+          - use YYYY-MM-DD format to retrieve all of the readings for that day
+          - use YYYY-MM-DDTHH:mm:ss to retrieve the latest readings at that moment in time
+          - example: `?date=2024-07-16` or `?date=2024-07-16T23:59:00`
+
+        <br/>
+
+        - Possible values for forecast include:
+          - Fair
+          - Fair (Day)
+          - Fair (Night)
+          - Fair and Warm
+          - Partly Cloudy
+          - Partly Cloudy (Day)
+          - Partly Cloudy (Night)
+          - Cloudy
+          - Hazy
+          - Slightly Hazy
+          - Windy
+          - Mist
+          - Fog
+          - Light Rain
+          - Moderate Rain
+          - Heavy Rain
+          - Passing Showers
+          - Light Showers
+          - Showers
+          - Heavy Showers
+          - Thundery Showers
+          - Heavy Thundery Showers
+          - Heavy Thundery Showers with Gusty Winds
+
+        <br/>
+
+        - Area metadata
+          - The `area_metadata` field in the response provides longitude/latitude information for the areas. You can use that to place the forecasts on a map.
+      parameters:
+      - description: SGT date for which to retrieve data (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)
+        explode: true
+        in: query
+        name: date
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Pagination token for retrieving subsequent data pages
+        explode: true
+        in: query
+        name: paginationToken
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_two_hr_forecast_get_200_response'
+          description: 2 Hour Weather Forecast
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_twenty_four_hr_forecast_get_400_response'
+          description: Invalid HTTP request body
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_twenty_four_hr_forecast_get_404_response'
+          description: Weather data not found
+      summary: Retrieve the latest two hour weather forecast
+  /four-day-outlook:
+    get:
+      description: |
+        **[https://api-open.data.gov.sg/v2/real-time/api/four-day-outlook](https://api-open.data.gov.sg/v2/real-time/api/four-day-outlook)**
+
+        <br/>
+
+        - Updated twice a day from NEA
+        - The forecast is for the next 4 days.
+
+        <br/>
+
+        - Filter for specific date or date-time by providing `date` in query parameter.
+          - use YYYY-MM-DD format to retrieve all of the readings for that day
+          - use YYYY-MM-DDTHH:mm:ss to retrieve the latest readings at that moment in time
+          - example: `?date=2024-07-16` or `?date=2024-07-16T23:59:00`
+      parameters:
+      - description: SGT date for which to retrieve data (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)
+        explode: true
+        in: query
+        name: date
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Pagination token for retrieving subsequent data pages
+        explode: true
+        in: query
+        name: paginationToken
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_four_day_outlook_get_200_response'
+          description: 4 Day Weather Forecast
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_twenty_four_hr_forecast_get_400_response'
+          description: Invalid HTTP request body
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_twenty_four_hr_forecast_get_404_response'
+          description: Weather data not found
+      summary: Retrieve the latest 4 day weather forecast
+  /air-temperature:
+    get:
+      description: |+
+        **[https://api-open.data.gov.sg/v2/real-time/api/air-temperature](https://api-open.data.gov.sg/v2/real-time/api/air-temperature)**
+
+        <br/>
+
+        - Has per-minute readings from NEA
+
+        <br/>
+
+        - Filter for specific date or date-time by providing `date` in query parameter.
+          - use YYYY-MM-DD format to retrieve all of the readings for that day
+          - use YYYY-MM-DDTHH:mm:ss to retrieve the latest readings at that moment in time
+          - example: `?date=2024-07-16` or `?date=2024-07-16T23:59:00`
+
+
+        - Unit of measure for readings is `°C`
+
+      parameters:
+      - description: "Format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS (SGT). Example: 2024-07-16\
+          \ or 2024-07-16T23:59:00"
+        explode: true
+        in: query
+        name: date
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Pagination token for retrieving subsequent data pages
+        explode: true
+        in: query
+        name: paginationToken
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_air_temperature_get_200_response'
+          description: Air Temperature Information
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_twenty_four_hr_forecast_get_400_response'
+          description: Invalid HTTP request body
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_twenty_four_hr_forecast_get_404_response'
+          description: Weather data not found
+      summary: Get air temperature readings across Singapore
+  /weather:
+    get:
+      description: |+
+        **[https://api-open.data.gov.sg/v2/real-time/api/weather?api=wbgt](https://api-open.data.gov.sg/v2/real-time/api/weather?api=wbgt)**
+
+        <br/>
+
+        - Updated multiple times throughout the day
+        <br/>
+        - Filter for specific date or date-time by providing `date` in query parameter.
+          - use YYYY-MM-DD format to retrieve all of the readings for that day
+          - use YYYY-MM-DDTHH:mm:ss to retrieve the latest readings at that moment in time
+          - example: `?date=2025-01-16` or `?date=2025-01-16T23:59:00`
+
+
+        - Unit of measure for readings is `°C`
+
+      parameters:
+      - description: Set the value to `wbgt` to fetch WBGT records
+        example: wbgt
+        explode: true
+        in: query
+        name: api
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "SGT date (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS). Example: 2025-01-16\
+          \ or 2025-01-16T23:59:00"
+        example: 2025-01-16T23:59:00.000Z
+        explode: true
+        in: query
+        name: date
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Pagination token for retrieving subsequent data pages
+        explode: true
+        in: query
+        name: paginationToken
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_weather_get_200_response'
+          description: WBGT Weather Observations
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_weather_get_400_response'
+          description: Invalid HTTP request body
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_twenty_four_hr_forecast_get_404_response'
+          description: Weather data not found
+      summary: Retrieve the latest WBGT data for accurate heat stress assessment
+  /wind-direction:
+    get:
+      description: |+
+        **[https://api-open.data.gov.sg/v2/real-time/api/wind-direction](https://api-open.data.gov.sg/v2/real-time/api/wind-direction)**
+
+        <br/>
+
+        - Has per-minute readings from NEA
+
+        <br/>
+
+        - Filter for specific date or date-time by providing `date` in query parameter.
+          - use YYYY-MM-DD format to retrieve all of the readings for that day
+          - use YYYY-MM-DDTHH:mm:ss to retrieve the latest readings at that moment in time
+          - example: `?date=2024-07-16` or `?date=2024-07-16T23:59:00`
+
+
+        - Unit of measure for readings is `°`
+
+      parameters:
+      - description: SGT date for which to retrieve data (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)
+        explode: true
+        in: query
+        name: date
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Pagination token for retrieving subsequent data pages
+        explode: true
+        in: query
+        name: paginationToken
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_wind_direction_get_200_response'
+          description: Wind Direction Information
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_twenty_four_hr_forecast_get_400_response'
+          description: Invalid HTTP request body
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_twenty_four_hr_forecast_get_404_response'
+          description: Weather data not found
+      summary: Get wind direction readings across Singapore
+components:
+  schemas:
+    _air_temperature_get_200_response_data_stations_inner:
+      example:
+        name: Marina Gardens Drive
+        id: S108
+        labelLocation:
+          latitude: 1.2799
+          longitude: 103.8703
+        deviceId: S108
+      properties:
+        id:
+          description: Station's ID
+          example: S108
+          title: id
+          type: string
+        deviceId:
+          description: Reading Device's ID (usually same as Station's ID)
+          example: S108
+          title: deviceId
+          type: string
+        name:
+          description: Station's name
+          example: Marina Gardens Drive
+          title: name
+          type: string
+        labelLocation:
+          $ref: '#/components/schemas/_air_temperature_get_200_response_data_stations_inner_labelLocation'
+      title: _air_temperature_get_200_response_data_stations_inner
+      type: object
+    _twenty_four_hr_forecast_get_200_response_data_records_inner:
+      example:
+        date: 2024-07-15T00:00:00.000Z
+        general:
+          temperature:
+            high: 36
+            unit: Degrees Celsius
+            low: 26
+          relativeHumidity:
+            high: 90
+            unit: Percentage
+            low: 55
+          forecast:
+            code: code
+            text: Fair
+          validPeriod:
+            start: 2024-07-16T16:30:00.000Z
+            end: 2024-07-16T18:30:00.000Z
+            text: 12.30 am to 2.30 am
+          wind:
+            speed:
+              high: 30
+              low: 15
+            direction: SSE
+        tiemstamp: 2024-07-15T15:04:00.000Z
+        periods:
+        - regions:
+            east:
+              code: code
+              text: Fair
+            central:
+              code: code
+              text: Fair
+            south:
+              code: code
+              text: Fair
+            north:
+              code: code
+              text: Fair
+            west:
+              code: code
+              text: Fair
+          timePeriod:
+            start: 2024-07-16T16:30:00.000Z
+            end: 2024-07-16T18:30:00.000Z
+            text: 12.30 am to 2.30 am
+        - regions:
+            east:
+              code: code
+              text: Fair
+            central:
+              code: code
+              text: Fair
+            south:
+              code: code
+              text: Fair
+            north:
+              code: code
+              text: Fair
+            west:
+              code: code
+              text: Fair
+          timePeriod:
+            start: 2024-07-16T16:30:00.000Z
+            end: 2024-07-16T18:30:00.000Z
+            text: 12.30 am to 2.30 am
+        updatedTimestamp: 2024-07-15T15:04:00.000Z
+      properties:
+        date:
+          example: 2024-07-15T00:00:00.000Z
+          title: date
+          type: string
+        updatedTimestamp:
+          description: Time of acquisition of data from NEA
+          example: 2024-07-15T15:04:00.000Z
+          title: updatedTimestamp
+          type: string
+        tiemstamp:
+          description: Time forecast was issued by NEA
+          example: 2024-07-15T15:04:00.000Z
+          title: tiemstamp
+          type: string
+        general:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general'
+        periods:
+          description: Forecasts for various areas in Singapore
+          items:
+            $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_periods_inner'
+          title: periods
+          type: array
+      title: _twenty_four_hr_forecast_get_200_response_data_records_inner
+      type: object
+    _weather_get_200_response_data_records_inner_item_readings_inner_location:
+      example:
+        latitude: "1.1700"
+        longtitude: "103.8718"
+      properties:
+        latitude:
+          description: "The latitude coordinate of the location, represented as a\
+            \ string."
+          example: "1.1700"
+          title: latitude
+          type: string
+        longtitude:
+          description: "The longitude coordinate of the location, represented as a\
+            \ string."
+          example: "103.8718"
+          title: longtitude
+          type: string
+      title: _weather_get_200_response_data_records_inner_item_readings_inner_location
+      type: object
+    _four_day_outlook_get_200_response_data_records_inner_forecasts_inner_wind:
+      example:
+        speed:
+          high: 40
+          low: 35
+        direction: SSE
+      properties:
+        speed:
+          $ref: '#/components/schemas/_four_day_outlook_get_200_response_data_records_inner_forecasts_inner_wind_speed'
+        direction:
+          example: SSE
+          title: direction
+          type: string
+      title: _four_day_outlook_get_200_response_data_records_inner_forecasts_inner_wind
+      type: object
+    _twenty_four_hr_forecast_get_200_response_data:
+      example:
+        paginationToken: b2Zmc2V0PTEwMA== (you will see this token only if next page
+          exists)
+        area_metadata:
+        - label_location:
+            latitude: 1.375
+            longitude: 103.839
+          name: Ang Mo Kio
+        - label_location:
+            latitude: 1.375
+            longitude: 103.839
+          name: Ang Mo Kio
+        records:
+        - date: 2024-07-15T00:00:00.000Z
+          general:
+            temperature:
+              high: 36
+              unit: Degrees Celsius
+              low: 26
+            relativeHumidity:
+              high: 90
+              unit: Percentage
+              low: 55
+            forecast:
+              code: code
+              text: Fair
+            validPeriod:
+              start: 2024-07-16T16:30:00.000Z
+              end: 2024-07-16T18:30:00.000Z
+              text: 12.30 am to 2.30 am
+            wind:
+              speed:
+                high: 30
+                low: 15
+              direction: SSE
+          tiemstamp: 2024-07-15T15:04:00.000Z
+          periods:
+          - regions:
+              east:
+                code: code
+                text: Fair
+              central:
+                code: code
+                text: Fair
+              south:
+                code: code
+                text: Fair
+              north:
+                code: code
+                text: Fair
+              west:
+                code: code
+                text: Fair
+            timePeriod:
+              start: 2024-07-16T16:30:00.000Z
+              end: 2024-07-16T18:30:00.000Z
+              text: 12.30 am to 2.30 am
+          - regions:
+              east:
+                code: code
+                text: Fair
+              central:
+                code: code
+                text: Fair
+              south:
+                code: code
+                text: Fair
+              north:
+                code: code
+                text: Fair
+              west:
+                code: code
+                text: Fair
+            timePeriod:
+              start: 2024-07-16T16:30:00.000Z
+              end: 2024-07-16T18:30:00.000Z
+              text: 12.30 am to 2.30 am
+          updatedTimestamp: 2024-07-15T15:04:00.000Z
+        - date: 2024-07-15T00:00:00.000Z
+          general:
+            temperature:
+              high: 36
+              unit: Degrees Celsius
+              low: 26
+            relativeHumidity:
+              high: 90
+              unit: Percentage
+              low: 55
+            forecast:
+              code: code
+              text: Fair
+            validPeriod:
+              start: 2024-07-16T16:30:00.000Z
+              end: 2024-07-16T18:30:00.000Z
+              text: 12.30 am to 2.30 am
+            wind:
+              speed:
+                high: 30
+                low: 15
+              direction: SSE
+          tiemstamp: 2024-07-15T15:04:00.000Z
+          periods:
+          - regions:
+              east:
+                code: code
+                text: Fair
+              central:
+                code: code
+                text: Fair
+              south:
+                code: code
+                text: Fair
+              north:
+                code: code
+                text: Fair
+              west:
+                code: code
+                text: Fair
+            timePeriod:
+              start: 2024-07-16T16:30:00.000Z
+              end: 2024-07-16T18:30:00.000Z
+              text: 12.30 am to 2.30 am
+          - regions:
+              east:
+                code: code
+                text: Fair
+              central:
+                code: code
+                text: Fair
+              south:
+                code: code
+                text: Fair
+              north:
+                code: code
+                text: Fair
+              west:
+                code: code
+                text: Fair
+            timePeriod:
+              start: 2024-07-16T16:30:00.000Z
+              end: 2024-07-16T18:30:00.000Z
+              text: 12.30 am to 2.30 am
+          updatedTimestamp: 2024-07-15T15:04:00.000Z
+      properties:
+        area_metadata:
+          items:
+            $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_area_metadata_inner'
+          title: area_metadata
+          type: array
+        records:
+          items:
+            $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner'
+          title: records
+          type: array
+        paginationToken:
+          description: Token to retrieve next page if exists
+          example: b2Zmc2V0PTEwMA== (you will see this token only if next page exists)
+          title: paginationToken
+          type: string
+      title: _twenty_four_hr_forecast_get_200_response_data
+      type: object
+    _wind_direction_get_200_response_data_readings_inner_data_inner:
+      example:
+        value: 148
+        stationId: S117
+      properties:
+        stationId:
+          example: S117
+          title: stationId
+          type: string
+        value:
+          example: 148
+          title: value
+          type: number
+      title: _wind_direction_get_200_response_data_readings_inner_data_inner
+      type: object
+    _twenty_four_hr_forecast_get_200_response:
+      example:
+        code: 0
+        data:
+          paginationToken: b2Zmc2V0PTEwMA== (you will see this token only if next
+            page exists)
+          area_metadata:
+          - label_location:
+              latitude: 1.375
+              longitude: 103.839
+            name: Ang Mo Kio
+          - label_location:
+              latitude: 1.375
+              longitude: 103.839
+            name: Ang Mo Kio
+          records:
+          - date: 2024-07-15T00:00:00.000Z
+            general:
+              temperature:
+                high: 36
+                unit: Degrees Celsius
+                low: 26
+              relativeHumidity:
+                high: 90
+                unit: Percentage
+                low: 55
+              forecast:
+                code: code
+                text: Fair
+              validPeriod:
+                start: 2024-07-16T16:30:00.000Z
+                end: 2024-07-16T18:30:00.000Z
+                text: 12.30 am to 2.30 am
+              wind:
+                speed:
+                  high: 30
+                  low: 15
+                direction: SSE
+            tiemstamp: 2024-07-15T15:04:00.000Z
+            periods:
+            - regions:
+                east:
+                  code: code
+                  text: Fair
+                central:
+                  code: code
+                  text: Fair
+                south:
+                  code: code
+                  text: Fair
+                north:
+                  code: code
+                  text: Fair
+                west:
+                  code: code
+                  text: Fair
+              timePeriod:
+                start: 2024-07-16T16:30:00.000Z
+                end: 2024-07-16T18:30:00.000Z
+                text: 12.30 am to 2.30 am
+            - regions:
+                east:
+                  code: code
+                  text: Fair
+                central:
+                  code: code
+                  text: Fair
+                south:
+                  code: code
+                  text: Fair
+                north:
+                  code: code
+                  text: Fair
+                west:
+                  code: code
+                  text: Fair
+              timePeriod:
+                start: 2024-07-16T16:30:00.000Z
+                end: 2024-07-16T18:30:00.000Z
+                text: 12.30 am to 2.30 am
+            updatedTimestamp: 2024-07-15T15:04:00.000Z
+          - date: 2024-07-15T00:00:00.000Z
+            general:
+              temperature:
+                high: 36
+                unit: Degrees Celsius
+                low: 26
+              relativeHumidity:
+                high: 90
+                unit: Percentage
+                low: 55
+              forecast:
+                code: code
+                text: Fair
+              validPeriod:
+                start: 2024-07-16T16:30:00.000Z
+                end: 2024-07-16T18:30:00.000Z
+                text: 12.30 am to 2.30 am
+              wind:
+                speed:
+                  high: 30
+                  low: 15
+                direction: SSE
+            tiemstamp: 2024-07-15T15:04:00.000Z
+            periods:
+            - regions:
+                east:
+                  code: code
+                  text: Fair
+                central:
+                  code: code
+                  text: Fair
+                south:
+                  code: code
+                  text: Fair
+                north:
+                  code: code
+                  text: Fair
+                west:
+                  code: code
+                  text: Fair
+              timePeriod:
+                start: 2024-07-16T16:30:00.000Z
+                end: 2024-07-16T18:30:00.000Z
+                text: 12.30 am to 2.30 am
+            - regions:
+                east:
+                  code: code
+                  text: Fair
+                central:
+                  code: code
+                  text: Fair
+                south:
+                  code: code
+                  text: Fair
+                north:
+                  code: code
+                  text: Fair
+                west:
+                  code: code
+                  text: Fair
+              timePeriod:
+                start: 2024-07-16T16:30:00.000Z
+                end: 2024-07-16T18:30:00.000Z
+                text: 12.30 am to 2.30 am
+            updatedTimestamp: 2024-07-15T15:04:00.000Z
+        errorMsg: errorMsg
+      properties:
+        code:
+          description: Response status code (always 0 for success)
+          title: code
+          type: integer
+        errorMsg:
+          description: Error message (empty string for success)
+          title: errorMsg
+          type: string
+          example: null
+        data:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data'
+      title: _twenty_four_hr_forecast_get_200_response
+      type: object
+    _four_day_outlook_get_200_response_data_records_inner_forecasts_inner_forecast:
+      example:
+        summary: Fair and occasionally windy
+        code: FA
+        text: Fair
+      properties:
+        summary:
+          example: Fair and occasionally windy
+          title: summary
+          type: string
+        code:
+          example: FA
+          title: code
+          type: string
+        text:
+          enum:
+          - Fair
+          - Fair (Day)
+          - Fair (Night)
+          - Fair and Warm
+          - Partly Cloudy
+          - Partly Cloudy (Day)
+          - Partly Cloudy (Night)
+          - Cloudy
+          - Hazy
+          - Slightly Hazy
+          - Windy
+          - Mist
+          - Fog
+          - Light Rain
+          - Moderate Rain
+          - Heavy Rain
+          - Passing Showers
+          - Light Showers
+          - Showers
+          - Heavy Showers
+          - Thundery Showers
+          - Heavy Thundery Showers
+          - Heavy Thundery Showers with Gusty Winds
+          title: text
+          type: string
+      title: _four_day_outlook_get_200_response_data_records_inner_forecasts_inner_forecast
+      type: object
+    _four_day_outlook_get_200_response_data_records_inner_forecasts_inner_temperature:
+      description: Unit of measure - Degrees Celsius
+      example:
+        high: 33
+        unit: Degrees Celsius
+        low: 26
+      properties:
+        low:
+          example: 26
+          title: low
+          type: number
+        high:
+          example: 33
+          title: high
+          type: number
+        unit:
+          example: Degrees Celsius
+          title: unit
+          type: string
+      title: _four_day_outlook_get_200_response_data_records_inner_forecasts_inner_temperature
+      type: object
+    _four_day_outlook_get_200_response_data:
+      description: Chronologically ordered forecasts for the next 4 days
+      example:
+        records:
+        - date: 2024-07-17T00:00:00.000Z
+          updatedTimestamp: 2024-07-16T21:20:50.000Z
+          timestamp: 2024-07-16T21:17:00.000Z
+          forecasts:
+          - temperature:
+              high: 33
+              unit: Degrees Celsius
+              low: 26
+            relativeHumidity:
+              high: 80
+              unit: Percentage
+              low: 50
+            forecast:
+              summary: Fair and occasionally windy
+              code: FA
+              text: Fair
+            day: Monday
+            timestamp: 2024-07-17T16:00:00.000Z
+            wind:
+              speed:
+                high: 40
+                low: 35
+              direction: SSE
+          - temperature:
+              high: 33
+              unit: Degrees Celsius
+              low: 26
+            relativeHumidity:
+              high: 80
+              unit: Percentage
+              low: 50
+            forecast:
+              summary: Fair and occasionally windy
+              code: FA
+              text: Fair
+            day: Monday
+            timestamp: 2024-07-17T16:00:00.000Z
+            wind:
+              speed:
+                high: 40
+                low: 35
+              direction: SSE
+        - date: 2024-07-17T00:00:00.000Z
+          updatedTimestamp: 2024-07-16T21:20:50.000Z
+          timestamp: 2024-07-16T21:17:00.000Z
+          forecasts:
+          - temperature:
+              high: 33
+              unit: Degrees Celsius
+              low: 26
+            relativeHumidity:
+              high: 80
+              unit: Percentage
+              low: 50
+            forecast:
+              summary: Fair and occasionally windy
+              code: FA
+              text: Fair
+            day: Monday
+            timestamp: 2024-07-17T16:00:00.000Z
+            wind:
+              speed:
+                high: 40
+                low: 35
+              direction: SSE
+          - temperature:
+              high: 33
+              unit: Degrees Celsius
+              low: 26
+            relativeHumidity:
+              high: 80
+              unit: Percentage
+              low: 50
+            forecast:
+              summary: Fair and occasionally windy
+              code: FA
+              text: Fair
+            day: Monday
+            timestamp: 2024-07-17T16:00:00.000Z
+            wind:
+              speed:
+                high: 40
+                low: 35
+              direction: SSE
+      properties:
+        records:
+          items:
+            $ref: '#/components/schemas/_four_day_outlook_get_200_response_data_records_inner'
+          title: records
+          type: array
+      title: _four_day_outlook_get_200_response_data
+      type: object
+    _air_temperature_get_200_response_data_readings_inner:
+      example:
+        data:
+        - value: 29
+          stationId: S108
+        - value: 29
+          stationId: S108
+        timestamp: 2024-07-16T15:59:00.000Z
+      properties:
+        timestamp:
+          example: 2024-07-16T15:59:00.000Z
+          title: timestamp
+          type: string
+        data:
+          items:
+            $ref: '#/components/schemas/_air_temperature_get_200_response_data_readings_inner_data_inner'
+          title: data
+          type: array
+      title: _air_temperature_get_200_response_data_readings_inner
+      type: object
+    _weather_get_200_response_data:
+      example:
+        paginationToken: b2Zmc2V0PTEwMA== (you will see this token only if next page
+          exists)
+        records:
+        - datetime: 2025-02-07T20:38:00+08:00
+          item:
+            isStationData: true
+            readings:
+            - heatStress: Low
+              datetime: 2025-02-07T19:16:44.004+08:00
+              station:
+                townCenter: Changi
+                name: Upper Changi Road North
+                id: S124
+              location:
+                latitude: "1.1700"
+                longtitude: "103.8718"
+              text: Cloud to Cloud
+              type: C
+              wbgt: "26.9"
+            - heatStress: Low
+              datetime: 2025-02-07T19:16:44.004+08:00
+              station:
+                townCenter: Changi
+                name: Upper Changi Road North
+                id: S124
+              location:
+                latitude: "1.1700"
+                longtitude: "103.8718"
+              text: Cloud to Cloud
+              type: C
+              wbgt: "26.9"
+            type: observation
+          updatedTimestamp: 2025-02-07T20:40:12+08:00
+        - datetime: 2025-02-07T20:38:00+08:00
+          item:
+            isStationData: true
+            readings:
+            - heatStress: Low
+              datetime: 2025-02-07T19:16:44.004+08:00
+              station:
+                townCenter: Changi
+                name: Upper Changi Road North
+                id: S124
+              location:
+                latitude: "1.1700"
+                longtitude: "103.8718"
+              text: Cloud to Cloud
+              type: C
+              wbgt: "26.9"
+            - heatStress: Low
+              datetime: 2025-02-07T19:16:44.004+08:00
+              station:
+                townCenter: Changi
+                name: Upper Changi Road North
+                id: S124
+              location:
+                latitude: "1.1700"
+                longtitude: "103.8718"
+              text: Cloud to Cloud
+              type: C
+              wbgt: "26.9"
+            type: observation
+          updatedTimestamp: 2025-02-07T20:40:12+08:00
+      properties:
+        records:
+          items:
+            $ref: '#/components/schemas/_weather_get_200_response_data_records_inner'
+          title: records
+          type: array
+        paginationToken:
+          description: Token to retrieve next page if exists
+          example: b2Zmc2V0PTEwMA== (you will see this token only if next page exists)
+          title: paginationToken
+          type: string
+      title: _weather_get_200_response_data
+      type: object
+    _wind_direction_get_200_response_data_stations_inner_labelLocation:
+      example:
+        latitude: 1.36491
+        longitude: 103.75065
+      properties:
+        latitude:
+          description: Latitude coordinate of the region label
+          example: 1.36491
+          title: latitude
+          type: number
+        longitude:
+          description: Longitude coordinate of the region label
+          example: 103.75065
+          title: longitude
+          type: number
+      title: _wind_direction_get_200_response_data_stations_inner_labelLocation
+      type: object
+    _weather_get_400_response:
+      example:
+        code: 4
+        data: "{}"
+        name: ERROR_PARAMS
+        errorMsg: Invalid date format. Date format must be YYYY-MM-DD (2025-02-01)
+          or YYYY-MM-DDTHH:mm:ss (2025-02-01T08:30:00).
+      properties:
+        code:
+          example: 4
+          title: code
+          type: number
+        name:
+          example: ERROR_PARAMS
+          title: name
+          type: string
+        data:
+          title: data
+          type: object
+          example: null
+        errorMsg:
+          enum:
+          - Invalid date format. Date format must be YYYY-MM-DD (2025-02-01) or YYYY-MM-DDTHH:mm:ss
+            (2025-02-01T08:30:00).
+          - Invalid pagination token.
+          title: errorMsg
+          type: string
+      title: _weather_get_400_response
+      type: object
+    _twenty_four_hr_forecast_get_200_response_data_records_inner_general:
+      description: A general weather forecast for the 24 hour period
+      example:
+        temperature:
+          high: 36
+          unit: Degrees Celsius
+          low: 26
+        relativeHumidity:
+          high: 90
+          unit: Percentage
+          low: 55
+        forecast:
+          code: code
+          text: Fair
+        validPeriod:
+          start: 2024-07-16T16:30:00.000Z
+          end: 2024-07-16T18:30:00.000Z
+          text: 12.30 am to 2.30 am
+        wind:
+          speed:
+            high: 30
+            low: 15
+          direction: SSE
+      properties:
+        validPeriod:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general_validPeriod'
+        temperature:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general_temperature'
+        relativeHumidity:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general_relativeHumidity'
+        forecast:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general_forecast'
+        wind:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general_wind'
+      title: _twenty_four_hr_forecast_get_200_response_data_records_inner_general
+      type: object
+    _two_hr_forecast_get_200_response_data_items_inner:
+      example:
+        valid_period:
+          start: 2024-07-16T16:30:00.000Z
+          end: 2024-07-16T18:30:00.000Z
+          text: 12.30 am to 2.30 am
+        updated_timestamp: 2024-07-17T05:05:54.000Z
+        timestamp: 2024-07-17T04:59:00.000Z
+        forecasts:
+        - area: Ang Mo Kio
+          forecast: Fair
+        - area: Ang Mo Kio
+          forecast: Fair
+      properties:
+        updated_timestamp:
+          description: Time of acquisition of data from NEA
+          example: 2024-07-17T05:05:54.000Z
+          title: updated_timestamp
+          type: string
+        timestamp:
+          description: Time forecast was issued by NEA
+          example: 2024-07-17T04:59:00.000Z
+          title: timestamp
+          type: string
+        valid_period:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general_validPeriod'
+        forecasts:
+          description: Forecasts for various areas in Singapore
+          items:
+            $ref: '#/components/schemas/_two_hr_forecast_get_200_response_data_items_inner_forecasts_inner'
+          title: forecasts
+          type: array
+      title: _two_hr_forecast_get_200_response_data_items_inner
+      type: object
+    _twenty_four_hr_forecast_get_200_response_data_area_metadata_inner:
+      example:
+        label_location:
+          latitude: 1.375
+          longitude: 103.839
+        name: Ang Mo Kio
+      properties:
+        name:
+          description: Name of the area
+          example: Ang Mo Kio
+          title: name
+          type: string
+        label_location:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_area_metadata_inner_label_location'
+      title: _twenty_four_hr_forecast_get_200_response_data_area_metadata_inner
+      type: object
+    _twenty_four_hr_forecast_get_200_response_data_records_inner_periods_inner_regions:
+      example:
+        east:
+          code: code
+          text: Fair
+        central:
+          code: code
+          text: Fair
+        south:
+          code: code
+          text: Fair
+        north:
+          code: code
+          text: Fair
+        west:
+          code: code
+          text: Fair
+      properties:
+        west:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general_forecast'
+        east:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general_forecast'
+        central:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general_forecast'
+        north:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general_forecast'
+        south:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general_forecast'
+      title: _twenty_four_hr_forecast_get_200_response_data_records_inner_periods_inner_regions
+      type: object
+    _twenty_four_hr_forecast_get_400_response:
+      example:
+        code: 4
+        data: "{}"
+        name: ERROR_PARAMS
+        errorMsg: Invalid date format. Date format must be YYYY-MM-DD (2024-06-01)
+          or YYYY-MM-DDTHH:mm:ss (2024-06-01T08:30:00).
+      properties:
+        code:
+          example: 4
+          title: code
+          type: number
+        name:
+          example: ERROR_PARAMS
+          title: name
+          type: string
+        data:
+          title: data
+          type: object
+          example: null
+        errorMsg:
+          enum:
+          - Invalid date format. Date format must be YYYY-MM-DD (2024-06-01) or YYYY-MM-DDTHH:mm:ss
+            (2024-06-01T08:30:00).
+          - Invalid pagination token.
+          title: errorMsg
+          type: string
+      title: _twenty_four_hr_forecast_get_400_response
+      type: object
+    _wind_direction_get_200_response_data_stations_inner:
+      example:
+        name: Banyan Road
+        id: S117
+        labelLocation:
+          latitude: 1.36491
+          longitude: 103.75065
+        deviceId: S117
+      properties:
+        id:
+          description: Station's ID
+          example: S117
+          title: id
+          type: string
+        deviceId:
+          description: Reading Device's ID (usually same as Station's ID)
+          example: S117
+          title: deviceId
+          type: string
+        name:
+          description: Station's name
+          example: Banyan Road
+          title: name
+          type: string
+        labelLocation:
+          $ref: '#/components/schemas/_wind_direction_get_200_response_data_stations_inner_labelLocation'
+      title: _wind_direction_get_200_response_data_stations_inner
+      type: object
+    _wind_direction_get_200_response_data_readings_inner:
+      example:
+        data:
+        - value: 148
+          stationId: S117
+        - value: 148
+          stationId: S117
+        timestamp: 2024-07-17T14:00:00.000Z
+      properties:
+        timestamp:
+          example: 2024-07-17T14:00:00.000Z
+          title: timestamp
+          type: string
+        data:
+          items:
+            $ref: '#/components/schemas/_wind_direction_get_200_response_data_readings_inner_data_inner'
+          title: data
+          type: array
+      title: _wind_direction_get_200_response_data_readings_inner
+      type: object
+    _four_day_outlook_get_200_response:
+      example:
+        code: 0
+        data:
+          records:
+          - date: 2024-07-17T00:00:00.000Z
+            updatedTimestamp: 2024-07-16T21:20:50.000Z
+            timestamp: 2024-07-16T21:17:00.000Z
+            forecasts:
+            - temperature:
+                high: 33
+                unit: Degrees Celsius
+                low: 26
+              relativeHumidity:
+                high: 80
+                unit: Percentage
+                low: 50
+              forecast:
+                summary: Fair and occasionally windy
+                code: FA
+                text: Fair
+              day: Monday
+              timestamp: 2024-07-17T16:00:00.000Z
+              wind:
+                speed:
+                  high: 40
+                  low: 35
+                direction: SSE
+            - temperature:
+                high: 33
+                unit: Degrees Celsius
+                low: 26
+              relativeHumidity:
+                high: 80
+                unit: Percentage
+                low: 50
+              forecast:
+                summary: Fair and occasionally windy
+                code: FA
+                text: Fair
+              day: Monday
+              timestamp: 2024-07-17T16:00:00.000Z
+              wind:
+                speed:
+                  high: 40
+                  low: 35
+                direction: SSE
+          - date: 2024-07-17T00:00:00.000Z
+            updatedTimestamp: 2024-07-16T21:20:50.000Z
+            timestamp: 2024-07-16T21:17:00.000Z
+            forecasts:
+            - temperature:
+                high: 33
+                unit: Degrees Celsius
+                low: 26
+              relativeHumidity:
+                high: 80
+                unit: Percentage
+                low: 50
+              forecast:
+                summary: Fair and occasionally windy
+                code: FA
+                text: Fair
+              day: Monday
+              timestamp: 2024-07-17T16:00:00.000Z
+              wind:
+                speed:
+                  high: 40
+                  low: 35
+                direction: SSE
+            - temperature:
+                high: 33
+                unit: Degrees Celsius
+                low: 26
+              relativeHumidity:
+                high: 80
+                unit: Percentage
+                low: 50
+              forecast:
+                summary: Fair and occasionally windy
+                code: FA
+                text: Fair
+              day: Monday
+              timestamp: 2024-07-17T16:00:00.000Z
+              wind:
+                speed:
+                  high: 40
+                  low: 35
+                direction: SSE
+        errorMsg: errorMsg
+      properties:
+        code:
+          description: Response status code (always 0 for success)
+          title: code
+          type: integer
+        errorMsg:
+          description: Error message (empty string for success)
+          title: errorMsg
+          type: string
+          example: null
+        data:
+          $ref: '#/components/schemas/_four_day_outlook_get_200_response_data'
+      title: _four_day_outlook_get_200_response
+      type: object
+    _two_hr_forecast_get_200_response_data_items_inner_forecasts_inner:
+      example:
+        area: Ang Mo Kio
+        forecast: Fair
+      properties:
+        area:
+          example: Ang Mo Kio
+          title: area
+          type: string
+        forecast:
+          enum:
+          - Fair
+          - Fair (Day)
+          - Fair (Night)
+          - Fair and Warm
+          - Partly Cloudy
+          - Partly Cloudy (Day)
+          - Partly Cloudy (Night)
+          - Cloudy
+          - Hazy
+          - Slightly Hazy
+          - Windy
+          - Mist
+          - Fog
+          - Light Rain
+          - Moderate Rain
+          - Heavy Rain
+          - Passing Showers
+          - Light Showers
+          - Showers
+          - Heavy Showers
+          - Thundery Showers
+          - Heavy Thundery Showers
+          - Heavy Thundery Showers with Gusty Winds
+          title: forecast
+          type: string
+      title: _two_hr_forecast_get_200_response_data_items_inner_forecasts_inner
+      type: object
+    _twenty_four_hr_forecast_get_200_response_data_records_inner_periods_inner:
+      example:
+        regions:
+          east:
+            code: code
+            text: Fair
+          central:
+            code: code
+            text: Fair
+          south:
+            code: code
+            text: Fair
+          north:
+            code: code
+            text: Fair
+          west:
+            code: code
+            text: Fair
+        timePeriod:
+          start: 2024-07-16T16:30:00.000Z
+          end: 2024-07-16T18:30:00.000Z
+          text: 12.30 am to 2.30 am
+      properties:
+        timePeriod:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general_validPeriod'
+        regions:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_periods_inner_regions'
+      title: _twenty_four_hr_forecast_get_200_response_data_records_inner_periods_inner
+      type: object
+    _two_hr_forecast_get_200_response:
+      example:
+        code: 0
+        data:
+          paginationToken: b2Zmc2V0PTEwMA== (you will see this token only if next
+            page exists)
+          area_metadata:
+          - label_location:
+              latitude: 1.375
+              longitude: 103.839
+            name: Ang Mo Kio
+          - label_location:
+              latitude: 1.375
+              longitude: 103.839
+            name: Ang Mo Kio
+          items:
+          - valid_period:
+              start: 2024-07-16T16:30:00.000Z
+              end: 2024-07-16T18:30:00.000Z
+              text: 12.30 am to 2.30 am
+            updated_timestamp: 2024-07-17T05:05:54.000Z
+            timestamp: 2024-07-17T04:59:00.000Z
+            forecasts:
+            - area: Ang Mo Kio
+              forecast: Fair
+            - area: Ang Mo Kio
+              forecast: Fair
+          - valid_period:
+              start: 2024-07-16T16:30:00.000Z
+              end: 2024-07-16T18:30:00.000Z
+              text: 12.30 am to 2.30 am
+            updated_timestamp: 2024-07-17T05:05:54.000Z
+            timestamp: 2024-07-17T04:59:00.000Z
+            forecasts:
+            - area: Ang Mo Kio
+              forecast: Fair
+            - area: Ang Mo Kio
+              forecast: Fair
+        errorMsg: errorMsg
+      properties:
+        code:
+          description: Response status code (always 0 for success)
+          title: code
+          type: integer
+        errorMsg:
+          description: Error message (empty string for success)
+          title: errorMsg
+          type: string
+          example: null
+        data:
+          $ref: '#/components/schemas/_two_hr_forecast_get_200_response_data'
+      title: _two_hr_forecast_get_200_response
+      type: object
+    _twenty_four_hr_forecast_get_200_response_data_records_inner_general_wind:
+      example:
+        speed:
+          high: 30
+          low: 15
+        direction: SSE
+      properties:
+        speed:
+          $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_records_inner_general_wind_speed'
+        direction:
+          example: SSE
+          title: direction
+          type: string
+      title: _twenty_four_hr_forecast_get_200_response_data_records_inner_general_wind
+      type: object
+    _air_temperature_get_200_response:
+      example:
+        code: 0
+        data:
+          paginationToken: b2Zmc2V0PTEwMA== (you will see this token only if next
+            page exists)
+          readings:
+          - data:
+            - value: 29
+              stationId: S108
+            - value: 29
+              stationId: S108
+            timestamp: 2024-07-16T15:59:00.000Z
+          - data:
+            - value: 29
+              stationId: S108
+            - value: 29
+              stationId: S108
+            timestamp: 2024-07-16T15:59:00.000Z
+          stations:
+          - name: Marina Gardens Drive
+            id: S108
+            labelLocation:
+              latitude: 1.2799
+              longitude: 103.8703
+            deviceId: S108
+          - name: Marina Gardens Drive
+            id: S108
+            labelLocation:
+              latitude: 1.2799
+              longitude: 103.8703
+            deviceId: S108
+          readingUnit: deg code
+          readingType: DBT 1M F
+        errorMsg: errorMsg
+      properties:
+        code:
+          description: Response status code (always 0 for success)
+          title: code
+          type: integer
+        errorMsg:
+          description: Error message (empty string for success)
+          title: errorMsg
+          type: string
+          example: null
+        data:
+          $ref: '#/components/schemas/_air_temperature_get_200_response_data'
+      title: _air_temperature_get_200_response
+      type: object
+    _weather_get_200_response:
+      example:
+        code: 0
+        data:
+          paginationToken: b2Zmc2V0PTEwMA== (you will see this token only if next
+            page exists)
+          records:
+          - datetime: 2025-02-07T20:38:00+08:00
+            item:
+              isStationData: true
+              readings:
+              - heatStress: Low
+                datetime: 2025-02-07T19:16:44.004+08:00
+                station:
+                  townCenter: Changi
+                  name: Upper Changi Road North
+                  id: S124
+                location:
+                  latitude: "1.1700"
+                  longtitude: "103.8718"
+                text: Cloud to Cloud
+                type: C
+                wbgt: "26.9"
+              - heatStress: Low
+                datetime: 2025-02-07T19:16:44.004+08:00
+                station:
+                  townCenter: Changi
+                  name: Upper Changi Road North
+                  id: S124
+                location:
+                  latitude: "1.1700"
+                  longtitude: "103.8718"
+                text: Cloud to Cloud
+                type: C
+                wbgt: "26.9"
+              type: observation
+            updatedTimestamp: 2025-02-07T20:40:12+08:00
+          - datetime: 2025-02-07T20:38:00+08:00
+            item:
+              isStationData: true
+              readings:
+              - heatStress: Low
+                datetime: 2025-02-07T19:16:44.004+08:00
+                station:
+                  townCenter: Changi
+                  name: Upper Changi Road North
+                  id: S124
+                location:
+                  latitude: "1.1700"
+                  longtitude: "103.8718"
+                text: Cloud to Cloud
+                type: C
+                wbgt: "26.9"
+              - heatStress: Low
+                datetime: 2025-02-07T19:16:44.004+08:00
+                station:
+                  townCenter: Changi
+                  name: Upper Changi Road North
+                  id: S124
+                location:
+                  latitude: "1.1700"
+                  longtitude: "103.8718"
+                text: Cloud to Cloud
+                type: C
+                wbgt: "26.9"
+              type: observation
+            updatedTimestamp: 2025-02-07T20:40:12+08:00
+        errorMsg: ""
+      properties:
+        code:
+          description: Response status code (always 0 for success)
+          title: code
+          type: integer
+        errorMsg:
+          description: Error message (empty string for success)
+          example: ""
+          title: errorMsg
+          type: string
+        data:
+          $ref: '#/components/schemas/_weather_get_200_response_data'
+      title: _weather_get_200_response
+      type: object
+    _four_day_outlook_get_200_response_data_records_inner_forecasts_inner_relativeHumidity:
+      description: Unit of measure - Percentage
+      example:
+        high: 80
+        unit: Percentage
+        low: 50
+      properties:
+        low:
+          example: 50
+          title: low
+          type: number
+        high:
+          example: 80
+          title: high
+          type: number
+        unit:
+          example: Percentage
+          title: unit
+          type: string
+      title: _four_day_outlook_get_200_response_data_records_inner_forecasts_inner_relativeHumidity
+      type: object
+    _wind_direction_get_200_response:
+      example:
+        code: 0
+        data:
+          paginationToken: b2Zmc2V0PTEwMA== (you will see this token only if next
+            page exists)
+          readings:
+          - data:
+            - value: 148
+              stationId: S117
+            - value: 148
+              stationId: S117
+            timestamp: 2024-07-17T14:00:00.000Z
+          - data:
+            - value: 148
+              stationId: S117
+            - value: 148
+              stationId: S117
+            timestamp: 2024-07-17T14:00:00.000Z
+          stations:
+          - name: Banyan Road
+            id: S117
+            labelLocation:
+              latitude: 1.36491
+              longitude: 103.75065
+            deviceId: S117
+          - name: Banyan Road
+            id: S117
+            labelLocation:
+              latitude: 1.36491
+              longitude: 103.75065
+            deviceId: S117
+          readingUnit: degrees
+          readingType: Wind Dir AVG (S) 10M M1M
+        errorMsg: errorMsg
+      properties:
+        code:
+          description: Response status code (always 0 for success)
+          title: code
+          type: integer
+        errorMsg:
+          description: Error message (empty string for success)
+          title: errorMsg
+          type: string
+          example: null
+        data:
+          $ref: '#/components/schemas/_wind_direction_get_200_response_data'
+      title: _wind_direction_get_200_response
+      type: object
+    _twenty_four_hr_forecast_get_404_response:
+      example:
+        code: 17
+        data: "{}"
+        name: REAL_TIME_API_DATA_NOT_FOUND
+        errorMsg: Data not found
+      properties:
+        code:
+          example: 17
+          title: code
+          type: number
+        name:
+          example: REAL_TIME_API_DATA_NOT_FOUND
+          title: name
+          type: string
+        data:
+          title: data
+          type: object
+          example: null
+        errorMsg:
+          example: Data not found
+          title: errorMsg
+          type: string
+      title: _twenty_four_hr_forecast_get_404_response
+      type: object
+    _four_day_outlook_get_200_response_data_records_inner_forecasts_inner:
+      example:
+        temperature:
+          high: 33
+          unit: Degrees Celsius
+          low: 26
+        relativeHumidity:
+          high: 80
+          unit: Percentage
+          low: 50
+        forecast:
+          summary: Fair and occasionally windy
+          code: FA
+          text: Fair
+        day: Monday
+        timestamp: 2024-07-17T16:00:00.000Z
+        wind:
+          speed:
+            high: 40
+            low: 35
+          direction: SSE
+      properties:
+        timestamp:
+          example: 2024-07-17T16:00:00.000Z
+          title: timestamp
+          type: string
+        temperature:
+          $ref: '#/components/schemas/_four_day_outlook_get_200_response_data_records_inner_forecasts_inner_temperature'
+        relativeHumidity:
+          $ref: '#/components/schemas/_four_day_outlook_get_200_response_data_records_inner_forecasts_inner_relativeHumidity'
+        forecast:
+          $ref: '#/components/schemas/_four_day_outlook_get_200_response_data_records_inner_forecasts_inner_forecast'
+        day:
+          enum:
+          - Monday
+          - Tuesday
+          - Wednesday
+          - Thursday
+          - Friday
+          - Saturday
+          - Sunday
+          title: day
+          type: string
+        wind:
+          $ref: '#/components/schemas/_four_day_outlook_get_200_response_data_records_inner_forecasts_inner_wind'
+      title: _four_day_outlook_get_200_response_data_records_inner_forecasts_inner
+      type: object
+    _weather_get_200_response_data_records_inner_item_readings_inner:
+      example:
+        heatStress: Low
+        datetime: 2025-02-07T19:16:44.004+08:00
+        station:
+          townCenter: Changi
+          name: Upper Changi Road North
+          id: S124
+        location:
+          latitude: "1.1700"
+          longtitude: "103.8718"
+        text: Cloud to Cloud
+        type: C
+        wbgt: "26.9"
+      properties:
+        location:
+          $ref: '#/components/schemas/_weather_get_200_response_data_records_inner_item_readings_inner_location'
+        datetime:
+          description: "The date and time when the weather reading was taken, formatted\
+            \ in ISO 8601."
+          example: 2025-02-07T19:16:44.004+08:00
+          title: datetime
+          type: string
+        text:
+          description: "A textual description of the weather event, which can include\
+            \ types such as \"Cloud to Cloud\" or \"Cloud to Ground.\""
+          example: Cloud to Cloud
+          title: text
+          type: string
+        type:
+          description: "The type of lightning event, which can be either \"C\" for\
+            \ Cloud to Cloud or \"G\" for Cloud to Ground."
+          example: C
+          title: type
+          type: string
+        station:
+          $ref: '#/components/schemas/_weather_get_200_response_data_records_inner_item_readings_inner_station'
+        heatStress:
+          description: A string indicating the level of heat stress at the location
+          example: Low
+          title: heatStress
+          type: string
+        wbgt:
+          description: Wet Bulb Globe Temperature value at the station
+          example: "26.9"
+          title: wbgt
+          type: string
+      title: _weather_get_200_response_data_records_inner_item_readings_inner
+      type: object
+    _weather_get_200_response_data_records_inner:
+      example:
+        datetime: 2025-02-07T20:38:00+08:00
+        item:
+          isStationData: true
+          readings:
+          - heatStress: Low
+            datetime: 2025-02-07T19:16:44.004+08:00
+            station:
+              townCenter: Changi
+              name: Upper Changi Road North
+              id: S124
+            location:
+              latitude: "1.1700"
+              longtitude: "103.8718"
+            text: Cloud to Cloud
+            type: C
+            wbgt: "26.9"
+          - heatStress: Low
+            datetime: 2025-02-07T19:16:44.004+08:00
+            station:
+              townCenter: Changi
+              name: Upper Changi Road North
+              id: S124
+            location:
+              latitude: "1.1700"
+              longtitude: "103.8718"
+            text: Cloud to Cloud
+            type: C
+            wbgt: "26.9"
+          type: observation
+        updatedTimestamp: 2025-02-07T20:40:12+08:00
+      properties:
+        datetime:
+          description: Time the observasation was issued by NEA
+          example: 2025-02-07T20:38:00+08:00
+          title: datetime
+          type: string
+        item:
+          $ref: '#/components/schemas/_weather_get_200_response_data_records_inner_item'
+        updatedTimestamp:
+          description: Time of acquisition of data from NEA
+          example: 2025-02-07T20:40:12+08:00
+          title: updatedTimestamp
+          type: string
+      title: _weather_get_200_response_data_records_inner
+      type: object
+    _twenty_four_hr_forecast_get_200_response_data_records_inner_general_relativeHumidity:
+      description: Unit of measure - Percentage
+      example:
+        high: 90
+        unit: Percentage
+        low: 55
+      properties:
+        low:
+          example: 55
+          title: low
+          type: number
+        high:
+          example: 90
+          title: high
+          type: number
+        unit:
+          example: Percentage
+          title: unit
+          type: string
+      title: _twenty_four_hr_forecast_get_200_response_data_records_inner_general_relativeHumidity
+      type: object
+    _wind_direction_get_200_response_data:
+      example:
+        paginationToken: b2Zmc2V0PTEwMA== (you will see this token only if next page
+          exists)
+        readings:
+        - data:
+          - value: 148
+            stationId: S117
+          - value: 148
+            stationId: S117
+          timestamp: 2024-07-17T14:00:00.000Z
+        - data:
+          - value: 148
+            stationId: S117
+          - value: 148
+            stationId: S117
+          timestamp: 2024-07-17T14:00:00.000Z
+        stations:
+        - name: Banyan Road
+          id: S117
+          labelLocation:
+            latitude: 1.36491
+            longitude: 103.75065
+          deviceId: S117
+        - name: Banyan Road
+          id: S117
+          labelLocation:
+            latitude: 1.36491
+            longitude: 103.75065
+          deviceId: S117
+        readingUnit: degrees
+        readingType: Wind Dir AVG (S) 10M M1M
+      properties:
+        stations:
+          items:
+            $ref: '#/components/schemas/_wind_direction_get_200_response_data_stations_inner'
+          title: stations
+          type: array
+        readings:
+          items:
+            $ref: '#/components/schemas/_wind_direction_get_200_response_data_readings_inner'
+          title: readings
+          type: array
+        readingType:
+          description: Information about the reading
+          example: Wind Dir AVG (S) 10M M1M
+          title: readingType
+          type: string
+        readingUnit:
+          description: Measurement unit for reading
+          example: degrees
+          title: readingUnit
+          type: string
+        paginationToken:
+          description: Token to retrieve next page if exists
+          example: b2Zmc2V0PTEwMA== (you will see this token only if next page exists)
+          title: paginationToken
+          type: string
+      title: _wind_direction_get_200_response_data
+      type: object
+    _twenty_four_hr_forecast_get_200_response_data_records_inner_general_temperature:
+      description: Unit of measure - Degrees Celsius
+      example:
+        high: 36
+        unit: Degrees Celsius
+        low: 26
+      properties:
+        low:
+          example: 26
+          title: low
+          type: number
+        high:
+          example: 36
+          title: high
+          type: number
+        unit:
+          example: Degrees Celsius
+          title: unit
+          type: string
+      title: _twenty_four_hr_forecast_get_200_response_data_records_inner_general_temperature
+      type: object
+    _four_day_outlook_get_200_response_data_records_inner_forecasts_inner_wind_speed:
+      description: Unit of measure - Kilometeres per hour
+      example:
+        high: 40
+        low: 35
+      properties:
+        low:
+          example: 35
+          title: low
+          type: number
+        high:
+          example: 40
+          title: high
+          type: number
+      title: _four_day_outlook_get_200_response_data_records_inner_forecasts_inner_wind_speed
+      type: object
+    _twenty_four_hr_forecast_get_200_response_data_records_inner_general_forecast:
+      example:
+        code: code
+        text: Fair
+      properties:
+        code:
+          title: code
+          type: string
+        text:
+          enum:
+          - Fair
+          - Fair (Day)
+          - Fair (Night)
+          - Fair and Warm
+          - Partly Cloudy
+          - Partly Cloudy (Day)
+          - Partly Cloudy (Night)
+          - Cloudy
+          - Hazy
+          - Slightly Hazy
+          - Windy
+          - Mist
+          - Fog
+          - Light Rain
+          - Moderate Rain
+          - Heavy Rain
+          - Passing Showers
+          - Light Showers
+          - Showers
+          - Heavy Showers
+          - Thundery Showers
+          - Heavy Thundery Showers
+          - Heavy Thundery Showers with Gusty Winds
+          title: text
+          type: string
+      title: _twenty_four_hr_forecast_get_200_response_data_records_inner_general_forecast
+      type: object
+    _weather_get_200_response_data_records_inner_item_readings_inner_station:
+      example:
+        townCenter: Changi
+        name: Upper Changi Road North
+        id: S124
+      properties:
+        name:
+          description: Station name
+          example: Upper Changi Road North
+          title: name
+          type: string
+        id:
+          description: Station ID
+          example: S124
+          title: id
+          type: string
+        townCenter:
+          example: Changi
+          title: townCenter
+          type: string
+      title: _weather_get_200_response_data_records_inner_item_readings_inner_station
+      type: object
+    _air_temperature_get_200_response_data_readings_inner_data_inner:
+      example:
+        value: 29
+        stationId: S108
+      properties:
+        stationId:
+          example: S108
+          title: stationId
+          type: string
+        value:
+          example: 29
+          title: value
+          type: number
+      title: _air_temperature_get_200_response_data_readings_inner_data_inner
+      type: object
+    _twenty_four_hr_forecast_get_200_response_data_records_inner_general_wind_speed:
+      description: Unit of measure - Kilometeres per hour
+      example:
+        high: 30
+        low: 15
+      properties:
+        low:
+          example: 15
+          title: low
+          type: number
+        high:
+          example: 30
+          title: high
+          type: number
+      title: _twenty_four_hr_forecast_get_200_response_data_records_inner_general_wind_speed
+      type: object
+    _air_temperature_get_200_response_data_stations_inner_labelLocation:
+      example:
+        latitude: 1.2799
+        longitude: 103.8703
+      properties:
+        latitude:
+          description: Latitude coordinate of the region label
+          example: 1.2799
+          title: latitude
+          type: number
+        longitude:
+          description: Longitude coordinate of the region label
+          example: 103.8703
+          title: longitude
+          type: number
+      title: _air_temperature_get_200_response_data_stations_inner_labelLocation
+      type: object
+    _twenty_four_hr_forecast_get_200_response_data_records_inner_general_validPeriod:
+      description: Period of time the forecast is valid for
+      example:
+        start: 2024-07-16T16:30:00.000Z
+        end: 2024-07-16T18:30:00.000Z
+        text: 12.30 am to 2.30 am
+      properties:
+        start:
+          example: 2024-07-16T16:30:00.000Z
+          title: start
+          type: string
+        end:
+          example: 2024-07-16T18:30:00.000Z
+          title: end
+          type: string
+        text:
+          example: 12.30 am to 2.30 am
+          title: text
+          type: string
+      title: _twenty_four_hr_forecast_get_200_response_data_records_inner_general_validPeriod
+      type: object
+    _two_hr_forecast_get_200_response_data:
+      example:
+        paginationToken: b2Zmc2V0PTEwMA== (you will see this token only if next page
+          exists)
+        area_metadata:
+        - label_location:
+            latitude: 1.375
+            longitude: 103.839
+          name: Ang Mo Kio
+        - label_location:
+            latitude: 1.375
+            longitude: 103.839
+          name: Ang Mo Kio
+        items:
+        - valid_period:
+            start: 2024-07-16T16:30:00.000Z
+            end: 2024-07-16T18:30:00.000Z
+            text: 12.30 am to 2.30 am
+          updated_timestamp: 2024-07-17T05:05:54.000Z
+          timestamp: 2024-07-17T04:59:00.000Z
+          forecasts:
+          - area: Ang Mo Kio
+            forecast: Fair
+          - area: Ang Mo Kio
+            forecast: Fair
+        - valid_period:
+            start: 2024-07-16T16:30:00.000Z
+            end: 2024-07-16T18:30:00.000Z
+            text: 12.30 am to 2.30 am
+          updated_timestamp: 2024-07-17T05:05:54.000Z
+          timestamp: 2024-07-17T04:59:00.000Z
+          forecasts:
+          - area: Ang Mo Kio
+            forecast: Fair
+          - area: Ang Mo Kio
+            forecast: Fair
+      properties:
+        area_metadata:
+          items:
+            $ref: '#/components/schemas/_twenty_four_hr_forecast_get_200_response_data_area_metadata_inner'
+          title: area_metadata
+          type: array
+        items:
+          items:
+            $ref: '#/components/schemas/_two_hr_forecast_get_200_response_data_items_inner'
+          title: items
+          type: array
+        paginationToken:
+          description: Token to retrieve next page if exists
+          example: b2Zmc2V0PTEwMA== (you will see this token only if next page exists)
+          title: paginationToken
+          type: string
+      title: _two_hr_forecast_get_200_response_data
+      type: object
+    _four_day_outlook_get_200_response_data_records_inner:
+      example:
+        date: 2024-07-17T00:00:00.000Z
+        updatedTimestamp: 2024-07-16T21:20:50.000Z
+        timestamp: 2024-07-16T21:17:00.000Z
+        forecasts:
+        - temperature:
+            high: 33
+            unit: Degrees Celsius
+            low: 26
+          relativeHumidity:
+            high: 80
+            unit: Percentage
+            low: 50
+          forecast:
+            summary: Fair and occasionally windy
+            code: FA
+            text: Fair
+          day: Monday
+          timestamp: 2024-07-17T16:00:00.000Z
+          wind:
+            speed:
+              high: 40
+              low: 35
+            direction: SSE
+        - temperature:
+            high: 33
+            unit: Degrees Celsius
+            low: 26
+          relativeHumidity:
+            high: 80
+            unit: Percentage
+            low: 50
+          forecast:
+            summary: Fair and occasionally windy
+            code: FA
+            text: Fair
+          day: Monday
+          timestamp: 2024-07-17T16:00:00.000Z
+          wind:
+            speed:
+              high: 40
+              low: 35
+            direction: SSE
+      properties:
+        date:
+          example: 2024-07-17T00:00:00.000Z
+          title: date
+          type: string
+        updatedTimestamp:
+          example: 2024-07-16T21:20:50.000Z
+          title: updatedTimestamp
+          type: string
+        timestamp:
+          example: 2024-07-16T21:17:00.000Z
+          title: timestamp
+          type: string
+        forecasts:
+          description: Forecast summary for the day
+          items:
+            $ref: '#/components/schemas/_four_day_outlook_get_200_response_data_records_inner_forecasts_inner'
+          title: forecasts
+          type: array
+      title: _four_day_outlook_get_200_response_data_records_inner
+      type: object
+    _weather_get_200_response_data_records_inner_item:
+      description: A weather observation for the WBGT
+      example:
+        isStationData: true
+        readings:
+        - heatStress: Low
+          datetime: 2025-02-07T19:16:44.004+08:00
+          station:
+            townCenter: Changi
+            name: Upper Changi Road North
+            id: S124
+          location:
+            latitude: "1.1700"
+            longtitude: "103.8718"
+          text: Cloud to Cloud
+          type: C
+          wbgt: "26.9"
+        - heatStress: Low
+          datetime: 2025-02-07T19:16:44.004+08:00
+          station:
+            townCenter: Changi
+            name: Upper Changi Road North
+            id: S124
+          location:
+            latitude: "1.1700"
+            longtitude: "103.8718"
+          text: Cloud to Cloud
+          type: C
+          wbgt: "26.9"
+        type: observation
+      properties:
+        type:
+          description: Type of the weather information (`observation` or `forecast`).
+            WBGT is always `observation.
+          example: observation
+          title: type
+          type: string
+        isStationData:
+          description: Indicates whether the weather information includes station
+            information.
+          example: true
+          title: isStationData
+          type: boolean
+        readings:
+          items:
+            $ref: '#/components/schemas/_weather_get_200_response_data_records_inner_item_readings_inner'
+          title: readings
+          type: array
+      title: _weather_get_200_response_data_records_inner_item
+      type: object
+    _air_temperature_get_200_response_data:
+      example:
+        paginationToken: b2Zmc2V0PTEwMA== (you will see this token only if next page
+          exists)
+        readings:
+        - data:
+          - value: 29
+            stationId: S108
+          - value: 29
+            stationId: S108
+          timestamp: 2024-07-16T15:59:00.000Z
+        - data:
+          - value: 29
+            stationId: S108
+          - value: 29
+            stationId: S108
+          timestamp: 2024-07-16T15:59:00.000Z
+        stations:
+        - name: Marina Gardens Drive
+          id: S108
+          labelLocation:
+            latitude: 1.2799
+            longitude: 103.8703
+          deviceId: S108
+        - name: Marina Gardens Drive
+          id: S108
+          labelLocation:
+            latitude: 1.2799
+            longitude: 103.8703
+          deviceId: S108
+        readingUnit: deg code
+        readingType: DBT 1M F
+      properties:
+        stations:
+          items:
+            $ref: '#/components/schemas/_air_temperature_get_200_response_data_stations_inner'
+          title: stations
+          type: array
+        readings:
+          items:
+            $ref: '#/components/schemas/_air_temperature_get_200_response_data_readings_inner'
+          title: readings
+          type: array
+        readingType:
+          description: Information about the reading
+          example: DBT 1M F
+          title: readingType
+          type: string
+        readingUnit:
+          description: Measurement unit for reading
+          example: deg code
+          title: readingUnit
+          type: string
+        paginationToken:
+          description: Token to retrieve next page if exists
+          example: b2Zmc2V0PTEwMA== (you will see this token only if next page exists)
+          title: paginationToken
+          type: string
+      title: _air_temperature_get_200_response_data
+      type: object
+    _twenty_four_hr_forecast_get_200_response_data_area_metadata_inner_label_location:
+      description: Provides longitude and latitude for placing readings on a map
+      example:
+        latitude: 1.375
+        longitude: 103.839
+      properties:
+        latitude:
+          example: 1.375
+          title: latitude
+          type: number
+        longitude:
+          example: 103.839
+          title: longitude
+          type: number
+      title: _twenty_four_hr_forecast_get_200_response_data_area_metadata_inner_label_location
+      type: object

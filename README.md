@@ -30,6 +30,7 @@ The API is generated from OpenAPI specifications and provides a consistent inter
 
 - Python 3.13+
 - [uv](https://github.com/astral-sh/uv) (Python package installer)
+- [Podman](https://podman.io/) or Docker (for containerized deployment)
 
 ### Installation
 
@@ -46,6 +47,8 @@ The API is generated from OpenAPI specifications and provides a consistent inter
 
 ### Running the API Service
 
+#### Local Development
+
 Start the FastAPI development server:
 
 ```bash
@@ -53,6 +56,35 @@ uvicorn app.main:app --reload
 ```
 
 The API will be available at http://127.0.0.1:8000
+
+#### Using Podman
+
+Build and run the service using Podman:
+
+```bash
+# Build the container image
+podman build -t services-hub .
+
+# Run the container
+podman run -p 8000:8000 services-hub
+```
+
+#### Using Podman Compose
+
+For multi-container setup with Podman Compose:
+
+```bash
+# Run the services defined in docker-compose.yaml
+podman-compose up -d
+
+# View logs
+podman-compose logs -f
+
+# Stop the services
+podman-compose down
+```
+
+The API will be available at http://localhost:8000
 
 ### API Documentation
 
@@ -83,6 +115,8 @@ services_hub/
 │   ├── generate-client.sh    # Generate API client
 │   └── merge-specs.sh        # Merge multiple API specs
 │
+├── Dockerfile            # Container definition for the service
+├── docker-compose.yaml   # Multi-container setup configuration
 ├── pyproject.toml        # Project metadata and dependencies
 └── README.md             # This file
 ```
@@ -106,6 +140,37 @@ services_hub/
 
 1. Update the corresponding specification file in the `specs/` directory
 2. Follow steps 2-4 from "Adding a New Data Service"
+
+## Containerization
+
+The Services Hub supports containerized deployment using either Podman or Docker.
+
+### Container Features
+
+- Uses Python Alpine as the base image for a small footprint
+- Leverages `uv` for faster dependency installation
+- Includes health checks for container orchestration
+- Configurable via environment variables
+- Supports volume mounting for development
+
+### Build Options
+
+Both Dockerfile and docker-compose.yaml are provided with configurations that work with either Podman or Docker:
+
+```bash
+# Using Podman
+podman build -t services-hub:latest .
+
+# Using Docker
+docker build -t services-hub:latest .
+```
+
+### Environment Variables
+
+The following environment variables can be configured:
+
+- `PYTHONPATH`: Set to `/app` by default
+- `PYTHONUNBUFFERED`: Set to `1` for unbuffered output
 
 ## License
 
